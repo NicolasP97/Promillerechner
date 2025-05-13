@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Promillerechner",
-    "slug": "Promillerechner",
+    "slug": "promillerechner",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.jpg",
@@ -37,6 +37,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "d1e7c951-586c-4c8d-b611-f3af541973f0"
+      }
+    },
+    "owner": "97nicolas"
   }
 }
