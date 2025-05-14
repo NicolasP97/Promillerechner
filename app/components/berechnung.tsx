@@ -1,12 +1,4 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  ImageSourcePropType,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { useUser } from "../context/UserContext";
 
@@ -31,8 +23,17 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
     const jetzt = new Date();
     const vergangeneZeit = time ? time : jetzt;
 
-    const differenzInMs = jetzt.getTime() - vergangeneZeit.getTime();
+    // Den Fall beachten, dass über Mitternacht getrunken wird
+    let differenzInMs;
+    if (vergangeneZeit.getTime() > jetzt.getTime()) {
+      differenzInMs =
+        24 * 1000 * 60 * 60 - (vergangeneZeit.getTime() - jetzt.getTime());
+    } else {
+      differenzInMs = jetzt.getTime() - vergangeneZeit.getTime();
+    }
+
     const startTimeInHours = differenzInMs / (1000 * 60 * 60);
+    console.log(`startTimeinHours: ${startTimeInHours}`);
 
     // Gesamt-Alkoholmenge in Gramm berechnen:
     const gesamtAlkohol = daten.reduce((summe, eintrag) => {
@@ -62,8 +63,17 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
       <Text style={styles.text}>
         Promillewert aktuell:
         <Text style={styles.ergebnis}>
-          {ergebnis !== null ? ` ${ergebnis.toFixed(2)} ‰` : " -"}
+          {ergebnis !== null && ergebnis > 1000
+            ? " Gewicht eingegeben?"
+            : ergebnis !== null
+            ? ` ${ergebnis.toFixed(2)} ‰`
+            : " -"}
         </Text>
+      </Text>
+      <Text style={styles.disclaimer}>
+        {ergebnis !== null && ergebnis >= 0.2
+          ? "Schon ab 0,2 Promille kann es Beeinträchtigungen bei der Fahrtüchtigkeit geben. Don't drink and drive!"
+          : ""}
       </Text>
     </View>
   );
@@ -79,7 +89,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   button: {
-    backgroundColor: "rgb(3, 133, 184)",
+    backgroundColor: "rgb(4, 147, 204)",
     paddingVertical: 10,
     paddingHorizontal: 22,
     marginTop: 20,
@@ -91,5 +101,13 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: "white",
     fontWeight: "bold",
+  },
+  disclaimer: {
+    marginTop: 10,
+    fontSize: 20,
+    color: "white",
+    fontWeight: "bold",
+    fontStyle: "italic",
+    textAlign: "center",
   },
 });

@@ -40,7 +40,7 @@ export default function AlkoholArt({
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
-        <Text style={styles.text}>{art}</Text>
+        <Text style={styles.header}>{art}</Text>
         <Image source={source} style={styles.image} />
       </View>
 
@@ -65,7 +65,7 @@ export default function AlkoholArt({
         <Text style={[styles.text, { marginBottom: 12 }]}>Anzahl</Text>
         <View style={styles.anzahlWrapper}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { width: 45 }]}
             value={anzahl}
             onChangeText={(text) => onChange(id, "anzahl", text)}
             keyboardType="numeric"
@@ -92,14 +92,20 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     width: 135,
-    marginRight: 20,
+    marginRight: 15,
+    marginBottom: 5,
   },
   volumenWrapper: {
     width: 110,
     marginRight: 10,
   },
+  header: {
+    fontSize: 24,
+    color: "white",
+    textAlign: "center",
+  },
   text: {
-    fontSize: 22,
+    fontSize: 20,
     color: "white",
     textAlign: "center",
   },
@@ -113,6 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   input: {
+    width: 70,
     borderWidth: 1,
     borderColor: "#888",
     borderRadius: 8,

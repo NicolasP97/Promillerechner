@@ -1,5 +1,4 @@
 import {
-  Text,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -34,7 +33,7 @@ export default function Index() {
     },
     {
       id: 3,
-      art: "Shot",
+      art: "Schnaps",
       source: require("../../assets/images/shot.jpg"),
       volume: "40",
       strength: "40",

@@ -20,7 +20,7 @@ export default function TimeInput({ onTimeChange }: TimeInputProps) {
 
   return (
     <View>
-      <Text style={styles.text}>Wann mit dem Trinken begonnen?</Text>
+      <Text style={styles.text}>Mit dem Trinken angefangen um:</Text>
       <Button
         title={`Uhrzeit wählen: ${time.getHours()}:${time
           .getMinutes()

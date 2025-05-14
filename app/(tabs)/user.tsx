@@ -2,8 +2,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Image,
-  ImageSourcePropType,
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -11,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 
-export default function Gender() {
+export default function UserInfo() {
   const {
     gender: selectedGender,
     setGender: onSelect,
