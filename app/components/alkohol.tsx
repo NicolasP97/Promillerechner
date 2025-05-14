@@ -103,11 +103,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "white",
     textAlign: "center",
+    fontFamily: "QuicksandMedium",
+    marginBottom: 5,
   },
   text: {
     fontSize: 20,
     color: "white",
     textAlign: "center",
+    fontFamily: "QuicksandMedium",
   },
   image: {
     width: 135,
@@ -117,6 +120,7 @@ const styles = StyleSheet.create({
     color: "white",
     marginBottom: 5,
     fontSize: 20,
+    fontFamily: "QuicksandMedium",
   },
   input: {
     width: 70,
@@ -125,9 +129,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     fontSize: 20,
-    fontWeight: "bold",
+    textAlign: "center",
     color: "white",
     marginBottom: 10,
+    fontFamily: "QuicksandBold",
   },
   anzahlWrapper: {
     flexDirection: "row",
@@ -139,15 +144,16 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#4CAF50",
-    paddingVertical: 10,
-    paddingHorizontal: 22,
+    paddingVertical: 9,
+    paddingHorizontal: 20,
     marginBottom: 5,
     borderRadius: 8,
     alignItems: "center",
+    justifyContent: "center",
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 20,
     color: "white",
-    fontWeight: "bold",
+    fontFamily: "QuicksandBold",
   },
 });

@@ -33,7 +33,6 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
     }
 
     const startTimeInHours = differenzInMs / (1000 * 60 * 60);
-    console.log(`startTimeinHours: ${startTimeInHours}`);
 
     // Gesamt-Alkoholmenge in Gramm berechnen:
     const gesamtAlkohol = daten.reduce((summe, eintrag) => {
@@ -57,7 +56,7 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={calculatePromille}>
-        <Text style={styles.text}>Berechne ‰</Text>
+        <Text style={styles.text}>Berechne Promille</Text>
       </TouchableOpacity>
 
       <Text style={styles.text}>
@@ -72,7 +71,7 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
       </Text>
       <Text style={styles.disclaimer}>
         {ergebnis !== null && ergebnis >= 0.2
-          ? "Schon ab 0,2 Promille kann es Beeinträchtigungen bei der Fahrtüchtigkeit geben. Don't drink and drive!"
+          ? "Bereits ab 0,2 Promille kann es zu Beeinträchtigungen der Fahrtüchtigkeit kommen. Don't drink and drive!"
           : ""}
       </Text>
     </View>
@@ -82,31 +81,42 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 20,
+    alignItems: "center",
   },
   text: {
     fontSize: 22,
     color: "white",
     textAlign: "center",
+    fontFamily: "QuicksandBold",
   },
   button: {
-    backgroundColor: "rgb(4, 147, 204)",
-    paddingVertical: 10,
-    paddingHorizontal: 22,
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 8,
+    width: 300,
+    backgroundColor: "#00c3ef",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
     alignItems: "center",
+    marginBottom: 20,
+
+    // iOS Shadow
+    shadowColor: "cyan",
+    shadowOffset: { width: 3, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+
+    // Android Shadow
+    elevation: 6,
   },
   ergebnis: {
-    fontSize: 22,
+    fontSize: 24,
     color: "white",
-    fontWeight: "bold",
+    fontFamily: "QuicksandBold",
   },
   disclaimer: {
-    marginTop: 10,
+    marginTop: 40,
     fontSize: 20,
     color: "white",
-    fontWeight: "bold",
     fontStyle: "italic",
     textAlign: "center",
   },

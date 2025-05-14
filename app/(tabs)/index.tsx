@@ -8,6 +8,8 @@ import {
   View,
 } from "react-native";
 import { useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+
 import AlkoholArt from "../components/alkohol";
 import Berechnung from "../components/berechnung";
 import TimeInput from "../components/timepicker";
@@ -27,7 +29,7 @@ export default function Index() {
       id: 2,
       art: "Wein",
       source: require("../../assets/images/wein.jpg"),
-      volume: "125",
+      volume: "175",
       strength: "14",
       anzahl: "0",
     },
@@ -48,53 +50,54 @@ export default function Index() {
   };
 
   return (
-    <KeyboardAvoidingView
+    <LinearGradient
+      colors={["#1a1a2e", "#16213e", "#0f3460"]}
       style={styles.wrapper}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View style={styles.timeInput}>
-            <TimeInput onTimeChange={setSelectedTime} />
-          </View>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={styles.timeInput}>
+              <TimeInput onTimeChange={setSelectedTime} />
+            </View>
 
-          {alkoholDaten.map((item) => (
-            <AlkoholArt
-              key={item.id}
-              id={item.id}
-              art={item.art}
-              source={item.source}
-              volume={item.volume}
-              strength={item.strength}
-              anzahl={item.anzahl}
-              onChange={updateDaten}
-            />
-          ))}
+            {alkoholDaten.map((item) => (
+              <AlkoholArt
+                key={item.id}
+                id={item.id}
+                art={item.art}
+                source={item.source}
+                volume={item.volume}
+                strength={item.strength}
+                anzahl={item.anzahl}
+                onChange={updateDaten}
+              />
+            ))}
 
-          <Berechnung daten={alkoholDaten} time={selectedTime} />
-        </ScrollView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+            {/* TO DO: Default nur Bier anzeigen, Weitere Alkoholarten durch + hinzufügen -> werden dann dynamisch gerendert */}
+
+            <Berechnung daten={alkoholDaten} time={selectedTime} />
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: "rgb(12, 5, 45)",
   },
   scrollContainer: {
     padding: 16,
     paddingBottom: 100, // Platz unter der Tastatur
-  },
-  text: {
-    fontSize: 24,
-    color: "white",
-    marginBottom: 20,
   },
   timeInput: {
     marginBottom: 15,
