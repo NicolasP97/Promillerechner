@@ -6,7 +6,11 @@ import {
   ImageSourcePropType,
   TextInput,
   TouchableOpacity,
+  Animated,
 } from "react-native";
+import { useRef } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import RemoveAlkohol from "./removeAlkohol";
 
 type AlkoholArtProps = {
   id: number;
@@ -16,6 +20,7 @@ type AlkoholArtProps = {
   strength: string;
   anzahl: string;
   onChange: (id: number, field: string, value: string) => void;
+  onRemove: () => void; // z. B. "Wein", "Schnaps"
 };
 
 export default function AlkoholArt({
@@ -26,7 +31,46 @@ export default function AlkoholArt({
   strength,
   anzahl,
   onChange,
+  onRemove,
 }: AlkoholArtProps) {
+  // Für Löschanimmation der Alkoholarten
+  const opacity = useRef(new Animated.Value(1)).current;
+  const scale = useRef(new Animated.Value(1)).current;
+  const translateX = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
+
+  // Für + und - Button Animation
+  const scalePlus = useRef(new Animated.Value(1)).current;
+  const scaleMinus = useRef(new Animated.Value(1)).current;
+
+  const onPressInPlus = () => {
+    Animated.spring(scalePlus, {
+      toValue: 0.9,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const onPressOutPlus = () => {
+    Animated.spring(scalePlus, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const onPressInMinus = () => {
+    Animated.spring(scaleMinus, {
+      toValue: 0.9,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const onPressOutMinus = () => {
+    Animated.spring(scaleMinus, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
   const increment = () => {
     const current = parseFloat(anzahl) || 0;
     onChange(id, "anzahl", String(current + 1));
@@ -37,123 +81,191 @@ export default function AlkoholArt({
     onChange(id, "anzahl", String(Math.max(current - 1, 0)));
   };
 
+  //  Animierter fade out beim löschen der Alkoholart
+  const handleRemove = () => {
+    Animated.parallel([
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scale, {
+        toValue: 0.9,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translateX, {
+        toValue: 50,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translateY, {
+        toValue: 50,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      setTimeout(() => {
+        onRemove(); // Entfernt die Komponente aus dem State
+      }, 150);
+    });
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.imageWrapper}>
+    <Animated.View
+      style={[
+        styles.card,
+        { opacity, transform: [{ scale }, { translateX }, { translateY }] },
+      ]}
+    >
+      <View style={styles.headerWrapper}>
         <Text style={styles.header}>{art}</Text>
-        <Image source={source} style={styles.image} />
+        <RemoveAlkohol onRemove={handleRemove} />
       </View>
-
-      <View style={styles.volumenWrapper}>
-        <Text style={styles.label}>Volumen ml</Text>
-        <TextInput
-          style={styles.input}
-          value={volume}
-          onChangeText={(text) => onChange(id, "volume", text)}
-          keyboardType="numeric"
-        />
-        <Text style={styles.label}>Gehalt %</Text>
-        <TextInput
-          style={styles.input}
-          value={strength}
-          onChangeText={(text) => onChange(id, "strength", text)}
-          keyboardType="numeric"
-        />
-      </View>
-
-      <View style={styles.volumenWrapper}>
-        <Text style={[styles.text, { marginBottom: 12 }]}>Anzahl</Text>
-        <View style={styles.anzahlWrapper}>
+      <View style={styles.row}>
+        <View style={styles.imageWrapper}>
+          <Image source={source} style={styles.image} />
+        </View>
+        <View style={styles.infoBlock}>
+          <Text style={styles.label}>Volumen (ml)</Text>
           <TextInput
-            style={[styles.input, { width: 45 }]}
+            style={styles.input}
+            value={volume}
+            onChangeText={(text) => onChange(id, "volume", text)}
+            keyboardType="numeric"
+          />
+
+          <Text style={styles.label}>Gehalt (%)</Text>
+          <TextInput
+            style={styles.input}
+            value={strength}
+            onChangeText={(text) => onChange(id, "strength", text)}
+            keyboardType="numeric"
+          />
+        </View>
+
+        <View style={styles.infoBlock}>
+          <Text style={styles.label}>Anzahl</Text>
+          <TextInput
+            style={[styles.input, styles.smallInput]}
             value={anzahl}
             onChangeText={(text) => onChange(id, "anzahl", text)}
             keyboardType="numeric"
           />
-          <View style={styles.buttonWrapper}>
-            <TouchableOpacity style={styles.button} onPress={increment}>
-              <Text style={styles.buttonText}>+1</Text>
+
+          <Animated.View
+            style={[
+              styles.buttonWrapper,
+              { transform: [{ scale: scalePlus }] },
+            ]}
+          >
+            <TouchableOpacity
+              style={styles.button}
+              onPressIn={onPressInPlus}
+              onPressOut={onPressOutPlus}
+              onPress={increment}
+            >
+              <Ionicons name="add-circle" size={24} color="white" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={decrement}>
-              <Text style={styles.buttonText}>-1</Text>
+          </Animated.View>
+
+          <Animated.View
+            style={[
+              styles.buttonWrapper,
+              { transform: [{ scale: scaleMinus }] },
+            ]}
+          >
+            <TouchableOpacity
+              style={styles.button}
+              onPressIn={onPressInMinus}
+              onPressOut={onPressOutMinus}
+              onPress={decrement}
+            >
+              <Ionicons name="remove-circle" size={24} color="white" />
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "flex-start",
+  card: {
+    backgroundColor: "#1a1a2e",
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 6,
   },
-  imageWrapper: {
-    width: 135,
-    marginRight: 15,
-    marginBottom: 5,
-  },
-  volumenWrapper: {
-    width: 110,
-    marginRight: 10,
+  headerWrapper: {
+    position: "relative",
+    alignItems: "center",
+    marginBottom: 12,
   },
   header: {
     fontSize: 24,
     color: "white",
+    fontFamily: "QuicksandBold",
+    marginBottom: 12,
     textAlign: "center",
-    fontFamily: "QuicksandMedium",
-    marginBottom: 5,
   },
-  text: {
-    fontSize: 20,
-    color: "white",
-    textAlign: "center",
-    fontFamily: "QuicksandMedium",
+
+  row: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+  },
+  imageWrapper: {
+    height: 190,
+    justifyContent: "center",
   },
   image: {
-    width: 135,
-    height: 175,
+    width: 100,
+    height: 140,
+    borderRadius: 12,
+    marginRight: 16,
+  },
+  infoBlock: {
+    flex: 1,
+    justifyContent: "center",
+    textAlign: "center",
   },
   label: {
-    color: "white",
-    marginBottom: 5,
-    fontSize: 20,
+    fontSize: 18,
+    color: "#aaa",
     fontFamily: "QuicksandMedium",
+    marginBottom: 4,
+    textAlign: "center",
   },
   input: {
-    width: 70,
     borderWidth: 1,
     borderColor: "#888",
     borderRadius: 8,
     padding: 10,
-    fontSize: 20,
-    textAlign: "center",
-    color: "white",
-    marginBottom: 10,
+    fontSize: 18,
     fontFamily: "QuicksandBold",
+    color: "white",
+    marginBottom: 12,
+    textAlign: "center",
   },
-  anzahlWrapper: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+  smallInput: {
+    width: 60,
+    alignSelf: "center",
   },
   buttonWrapper: {
-    marginLeft: 10,
+    alignItems: "center",
   },
   button: {
+    width: 80,
     backgroundColor: "#4CAF50",
-    paddingVertical: 9,
-    paddingHorizontal: 20,
-    marginBottom: 5,
     borderRadius: 8,
+    paddingVertical: 8,
+    marginTop: 7,
     alignItems: "center",
     justifyContent: "center",
-  },
-  buttonText: {
-    fontSize: 20,
-    color: "white",
-    fontFamily: "QuicksandBold",
   },
 });

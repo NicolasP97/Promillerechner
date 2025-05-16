@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#00c3ef",
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 10,
+    borderRadius: 50,
     alignItems: "center",
     // iOS Shadow
     shadowColor: "cyan",

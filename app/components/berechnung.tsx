@@ -1,5 +1,11 @@
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+} from "react-native";
+import { useState, useRef } from "react";
 import { useUser } from "../context/UserContext";
 
 type AlkoholEintrag = {
@@ -16,6 +22,24 @@ type BerechnungProps = {
 export default function Berechnung({ daten, time }: BerechnungProps) {
   const [ergebnis, setErgebnis] = useState<number | null>(null);
   const { gender: geschlecht, massKG: gewicht } = useUser();
+
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const onPressIn = () => {
+    Animated.spring(scale, {
+      toValue: 0.95,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const onPressOut = () => {
+    Animated.spring(scale, {
+      toValue: 1,
+      friction: 3,
+      tension: 40,
+      useNativeDriver: true,
+    }).start();
+  };
 
   const calculatePromille = () => {
     const distributionFactor = geschlecht === "male" ? 0.68 : 0.55; // männlich 0.68, weiblich 0.55
@@ -55,9 +79,16 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={calculatePromille}>
-        <Text style={styles.text}>Berechne Promille</Text>
-      </TouchableOpacity>
+      <Animated.View style={{ transform: [{ scale }] }}>
+        <TouchableOpacity
+          style={styles.button}
+          onPressIn={onPressIn}
+          onPressOut={onPressOut}
+          onPress={calculatePromille}
+        >
+          <Text style={styles.text}>Berechne Promille</Text>
+        </TouchableOpacity>
+      </Animated.View>
 
       <Text style={styles.text}>
         Promillewert aktuell:
@@ -95,7 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#00c3ef",
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 12,
+    borderRadius: 50,
     alignItems: "center",
     marginBottom: 20,
 
