@@ -1,12 +1,12 @@
 import { useState } from "react";
 import {
   View,
-  Button,
   Platform,
   Text,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -34,14 +34,19 @@ export default function TimeInput({ onTimeChange }: TimeInputProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Saufen begonnen um:</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setShowPicker(true)}
-      >
-        <View style={styles.buttonTextWrapper}>
-          <Ionicons name={"time-outline"} color={"white"} size={24} />
-          <Text style={styles.buttonText}>Uhrzeit wählen: {formattedTime}</Text>
-        </View>
+
+      <TouchableOpacity onPress={() => setShowPicker(true)}>
+        <LinearGradient
+          colors={["cyan", "rgb(0, 81, 255)"]}
+          style={styles.gradientButton}
+        >
+          <View style={styles.buttonTextWrapper}>
+            <Ionicons name={"time-outline"} color={"white"} size={24} />
+            <Text style={styles.buttonText}>
+              Uhrzeit wählen: {formattedTime}
+            </Text>
+          </View>
+        </LinearGradient>
       </TouchableOpacity>
 
       {showPicker && (
@@ -68,9 +73,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: "QuicksandMedium",
   },
-  button: {
+  gradientButton: {
     width: 300,
-    backgroundColor: "#00c3ef",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 50,
@@ -87,7 +91,7 @@ const styles = StyleSheet.create({
   },
   buttonTextWrapper: {
     flexDirection: "row",
-    alignItems: "center", // ← das sorgt für vertikale Zentrierung
+    alignItems: "center", //vertikale Zentrierung
     justifyContent: "center",
   },
   buttonText: {

@@ -9,6 +9,7 @@ import {
   Animated,
 } from "react-native";
 import { useRef } from "react";
+import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import RemoveAlkohol from "./removeAlkohol";
 
@@ -111,6 +112,8 @@ export default function AlkoholArt({
     });
   };
 
+  const colors = ["#6c63ff", "rgb(39, 3, 82)"];
+
   return (
     <Animated.View
       style={[
@@ -160,12 +163,16 @@ export default function AlkoholArt({
             ]}
           >
             <TouchableOpacity
-              style={styles.button}
               onPressIn={onPressInPlus}
               onPressOut={onPressOutPlus}
               onPress={increment}
             >
-              <Ionicons name="add-circle" size={24} color="white" />
+              <LinearGradient
+                colors={["rgb(39, 80, 131)", "rgb(22, 36, 71)"]}
+                style={styles.gradientButton}
+              >
+                <Ionicons name="add-circle" size={26} color="white" />
+              </LinearGradient>
             </TouchableOpacity>
           </Animated.View>
 
@@ -176,12 +183,16 @@ export default function AlkoholArt({
             ]}
           >
             <TouchableOpacity
-              style={styles.button}
               onPressIn={onPressInMinus}
               onPressOut={onPressOutMinus}
               onPress={decrement}
             >
-              <Ionicons name="remove-circle" size={24} color="white" />
+              <LinearGradient
+                colors={["rgb(39, 80, 131)", "rgb(22, 36, 71)"]}
+                style={styles.gradientButton}
+              >
+                <Ionicons name="remove-circle" size={26} color="white" />
+              </LinearGradient>
             </TouchableOpacity>
           </Animated.View>
         </View>
@@ -227,26 +238,28 @@ const styles = StyleSheet.create({
     width: 100,
     height: 140,
     borderRadius: 12,
-    marginRight: 16,
+    marginRight: 14,
   },
   infoBlock: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
     textAlign: "center",
   },
   label: {
     fontSize: 18,
     color: "#aaa",
     fontFamily: "QuicksandMedium",
-    marginBottom: 4,
+    marginBottom: 5,
     textAlign: "center",
   },
   input: {
+    width: 80,
     borderWidth: 1,
     borderColor: "#888",
     borderRadius: 8,
-    padding: 10,
-    fontSize: 18,
+    padding: 8,
+    fontSize: 19,
     fontFamily: "QuicksandBold",
     color: "white",
     marginBottom: 12,
@@ -259,10 +272,9 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     alignItems: "center",
   },
-  button: {
+  gradientButton: {
     width: 80,
-    backgroundColor: "#4CAF50",
-    borderRadius: 8,
+    borderRadius: 12,
     paddingVertical: 8,
     marginTop: 7,
     alignItems: "center",

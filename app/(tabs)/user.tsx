@@ -40,7 +40,7 @@ export default function UserInfo() {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
         >
-          <Text style={styles.label}>Geschlecht</Text>
+          <Text style={styles.label}>Geschlecht (biologisch)</Text>
           <View style={styles.buttonWrapper}>
             <TouchableOpacity
               style={[
@@ -64,7 +64,7 @@ export default function UserInfo() {
           </View>
 
           <View style={styles.massWrapper}>
-            <Text style={styles.label}>Gewicht in kg:</Text>
+            <Text style={styles.label}>Gewicht (kg)</Text>
             <TextInput
               style={styles.input}
               value={inputMass} // number -> string
