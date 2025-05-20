@@ -83,7 +83,7 @@ export default function UserInfo() {
           <View style={styles.infoContainer}>
             <Text style={styles.infoHeader}>Information:</Text>
             <Text style={styles.infoText}>
-              Diese App berechnet Promillewerte mithilfe der Widmark Formel. Die
+              Diese App berechnet Promillewerte mithilfe der Widmark-Formel. Die
               errechneten Werte dienen lediglich als grobe Orientierung. Die
               Ergebnisse sind nicht rechtlich bindend und keine Garantie für
               Fahrtüchtigkeit.
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     color: "white",
     marginBottom: 10,
     fontSize: 32,
-
+    fontFamily: "QuicksandBold",
     textAlign: "center",
   },
   buttonWrapper: {

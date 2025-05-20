@@ -323,9 +323,13 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
           ""
         )}
       </Svg>
-      <NativeText style={styles.prognoseText}>
-        *Geschätze Uhrzeit bei 0,5‰
-      </NativeText>
+      {isInfoVisible ? (
+        <NativeText style={styles.prognoseText}>
+          *Geschätze Uhrzeit für 0,5‰
+        </NativeText>
+      ) : (
+        ""
+      )}
     </View>
   );
 }

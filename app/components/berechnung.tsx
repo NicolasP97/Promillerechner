@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     fontFamily: "QuicksandBold",
   },
   disclaimer: {
-    marginTop: 40,
+    marginTop: 50,
     fontSize: 20,
     color: "white",
     fontStyle: "italic",
