@@ -7,15 +7,32 @@ import {
   Keyboard,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 
 import AlkoholArt from "../components/alkohol";
 import Berechnung from "../components/berechnung";
 import TimeInput from "../components/timepicker";
 import AddAlkoholArt from "../components/addAlkohol";
+import DisclaimerModal from "../components/disclaimerModal";
 
 export default function Index() {
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const accepted = await AsyncStorage.getItem("disclaimerAccepted");
+      if (!accepted) {
+        setShowDisclaimer(true);
+      }
+    })();
+  }, []);
+
+  const handleAccept = async () => {
+    await AsyncStorage.setItem("disclaimerAccepted", "true");
+    setShowDisclaimer(false);
+  };
   const [sichtbareIDs, setSichtbareIDs] = useState([1]); // erstmal nur Bier rendern
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
   const [alkoholDaten, setAlkoholDaten] = useState([
@@ -32,7 +49,7 @@ export default function Index() {
       art: "Wein",
       source: require("../../assets/images/wein.jpg"),
       volume: "175",
-      strength: "14",
+      strength: "12.5",
       anzahl: "0",
     },
     {
@@ -116,6 +133,7 @@ export default function Index() {
               }}
             />
             <Berechnung daten={alkoholDaten} time={selectedTime} />
+            <DisclaimerModal visible={showDisclaimer} onAccept={handleAccept} />
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

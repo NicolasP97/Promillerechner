@@ -36,47 +36,58 @@ export default function UserInfo() {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
-          style={{ flex: 1 }}
+          style={styles.keyboardWrapper}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
         >
-          <Text style={styles.label}>Geschlecht (biologisch)</Text>
-          <View style={styles.buttonWrapper}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                selectedGender === "male" && styles.activeButton,
-              ]}
-              onPress={() => onSelect("male")}
-            >
-              <Ionicons name="male" color="rgb(7, 232, 248)" size={25} />
-            </TouchableOpacity>
+          <View style={styles.content}>
+            <Text style={styles.label}>Geschlecht (biologisch)</Text>
+            <View style={styles.buttonWrapper}>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedGender === "male" && styles.activeButton,
+                ]}
+                onPress={() => onSelect("male")}
+              >
+                <Ionicons name="male" color="rgb(7, 232, 248)" size={25} />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[
-                styles.button,
-                selectedGender === "female" && styles.activeButton,
-              ]}
-              onPress={() => onSelect("female")}
-            >
-              <Ionicons name="female" color="rgb(248, 7, 240)" size={25} />
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  selectedGender === "female" && styles.activeButton,
+                ]}
+                onPress={() => onSelect("female")}
+              >
+                <Ionicons name="female" color="rgb(248, 7, 240)" size={25} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.massWrapper}>
+              <Text style={styles.label}>Gewicht (kg)</Text>
+              <TextInput
+                style={styles.input}
+                value={inputMass} // number -> string
+                onChangeText={(text) => {
+                  setInputMass(text);
+                  const parsed = parseFloat(text);
+                  if (!isNaN(parsed)) {
+                    setMassKG(parsed); //  safe update
+                  }
+                }}
+                keyboardType="numeric"
+              />
+            </View>
           </View>
-
-          <View style={styles.massWrapper}>
-            <Text style={styles.label}>Gewicht (kg)</Text>
-            <TextInput
-              style={styles.input}
-              value={inputMass} // number -> string
-              onChangeText={(text) => {
-                setInputMass(text);
-                const parsed = parseFloat(text);
-                if (!isNaN(parsed)) {
-                  setMassKG(parsed); //  safe update
-                }
-              }}
-              keyboardType="numeric"
-            />
+          <View style={styles.infoContainer}>
+            <Text style={styles.infoHeader}>Information:</Text>
+            <Text style={styles.infoText}>
+              Diese App berechnet Promillewerte mithilfe der Widmark Formel. Die
+              errechneten Werte dienen lediglich als grobe Orientierung. Die
+              Ergebnisse sind nicht rechtlich bindend und keine Garantie für
+              Fahrtüchtigkeit.
+            </Text>
           </View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
@@ -90,11 +101,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 20,
   },
+  keyboardWrapper: {
+    flex: 1,
+    justifyContent: "space-between", // verteilt oben & unten
+    width: "100%", // wichtig für volle Breite
+    alignItems: "center", // zentriert Elemente horizontal
+  },
+  content: {
+    alignItems: "center",
+    width: "100%",
+  },
   label: {
     color: "white",
     marginBottom: 10,
     fontSize: 32,
-    fontFamily: "QuicksandMedium",
+
     textAlign: "center",
   },
   buttonWrapper: {
@@ -130,5 +151,21 @@ const styles = StyleSheet.create({
     fontFamily: "QuicksandBold",
     textAlign: "center",
     margin: 10,
+  },
+  infoContainer: {
+    width: "95%",
+    marginBottom: 20,
+  },
+  infoHeader: {
+    color: "lightgrey",
+    fontSize: 16,
+    fontFamily: "QuicksandBold",
+    textAlign: "center",
+  },
+  infoText: {
+    color: "lightgrey",
+    fontSize: 14,
+    fontFamily: "QuicksandMedium",
+    textAlign: "center",
   },
 });

@@ -2,6 +2,7 @@ import { View, StyleSheet } from "react-native";
 import Svg, { Line, Path, Text, Circle, G } from "react-native-svg";
 import { Animated, Easing } from "react-native";
 import { useState, useRef, useEffect } from "react";
+import { Text as NativeText } from "react-native";
 
 type PromilleChartTypes = {
   promille: number;
@@ -11,7 +12,7 @@ type PromilleChartTypes = {
 export default function PromilleChart({ promille, time }: PromilleChartTypes) {
   const [isInfoVisible, setIsInfoVisible] = useState<boolean>(false);
   const maxPromille = promille;
-  const reductionFactor = 0.12;
+  const reductionFactor = 0.11;
 
   const timeNow = new Date();
   const hoursTillZeroPromille = maxPromille / reductionFactor;
@@ -236,6 +237,7 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
             fontSize="8"
             textAnchor="middle"
             fill="white"
+            fontFamily="Lato"
           >
             {label}
           </Text>
@@ -256,6 +258,7 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
             fontSize="8"
             textAnchor="end"
             fill="white"
+            fontFamily="Lato"
           >
             {p.toFixed(2)}
           </Text>
@@ -293,13 +296,14 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
 
         {isInfoVisible ? (
           <Text
-            x={halfPromille + 20}
-            y={toY(0.5) - 10}
+            x={halfPromille + 25}
+            y={toY(0.5) - 12}
             fontSize="10"
             textAnchor="middle"
             fill="white"
+            fontFamily="Lato"
           >
-            {timeAt05Promile}
+            {`${timeAt05Promile} Uhr*`}
           </Text>
         ) : (
           ""
@@ -311,6 +315,7 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
             fontSize="10"
             textAnchor="middle"
             fill="white"
+            fontFamily="Lato"
           >
             0,5‰
           </Text>
@@ -318,6 +323,9 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
           ""
         )}
       </Svg>
+      <NativeText style={styles.prognoseText}>
+        *Geschätze Uhrzeit bei 0,5‰
+      </NativeText>
     </View>
   );
 }
@@ -337,7 +345,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: "QuicksandMedium",
   },
-  clickable: {
-    padding: 20,
+  prognoseText: {
+    fontSize: 12,
+    color: "lightgrey",
+    marginTop: 10,
+    fontFamily: "QuicksandMedium",
   },
 });

@@ -10,6 +10,7 @@ export default function RootLayout() {
     Quicksand: require("../../assets/fonts/quicksand-regular.ttf"),
     QuicksandMedium: require("../../assets/fonts/quicksand-medium.ttf"),
     QuicksandBold: require("../../assets/fonts/quicksand-bold.ttf"),
+    Lato: require("../../assets/fonts/lato-regular.ttf"),
   });
 
   if (!fontsLoaded) {

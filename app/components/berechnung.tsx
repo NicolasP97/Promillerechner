@@ -86,9 +86,18 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
       )}
 
       <Text style={styles.disclaimer}>
-        {ergebnis !== null && ergebnis >= 0.2
-          ? "Bereits ab 0,2 Promille kann es zu Beeinträchtigungen der Fahrtüchtigkeit kommen. Don't drink and drive!"
-          : ""}
+        {ergebnis !== null && ergebnis >= 0.2 ? (
+          <>
+            Bereits ab 0,2 ‰ kann die Fahrtüchtigkeit beeinträchtigt sein. Die
+            dargestellten Werte basieren auf einer Schätzung und sind nicht
+            rechtsverbindlich.{" "}
+            <Text style={{ fontWeight: "bold" }}>
+              Niemals unter Alkoholeinfluss fahren.
+            </Text>
+          </>
+        ) : (
+          ""
+        )}
       </Text>
     </View>
   );

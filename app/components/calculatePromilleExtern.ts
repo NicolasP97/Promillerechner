@@ -13,7 +13,7 @@ export default function calculatePromilleExtern(
   geschlecht: "male" | "female" | null
 ): { promille: number; stundenSeitTrinken: number } {
   const distributionFactor = geschlecht === "male" ? 0.68 : 0.55;
-  const reductionFactor = 0.12;
+  const reductionFactor = 0.11;
 
   // Den Fall beachten, dass über Mitternacht getrunken wird
   const jetzt = new Date();
