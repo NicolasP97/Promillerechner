@@ -1,50 +1,108 @@
-# Welcome to your Expo app 👋
+# Promillerechner – Alkoholabbau & BAC Schätzung
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> **Schätze deinen Promillewert & den Alkoholabbau – schnell, intuitiv und kostenlos.**
 
-## Get started
+## 📱 Beschreibung
 
-1. Install dependencies
+Du möchtest wissen, wie viele Promille du im Blut hast und wann du wieder **nüchtern** bist?  
+Mit dem **Promillerechner – Alkoholabbau & BAC Schätzung** erhältst du eine einfache Möglichkeit, deinen **geschätzten Blutalkoholwert (BAC)** zu berechnen – basierend auf der **Widmark-Formel**. Die App zeigt dir zusätzlich, wie schnell dein Körper den **Alkohol abbaut** – klar visualisiert im Zeitverlauf.
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## 🔍 Funktionen
 
-   ```bash
-   npx expo start
-   ```
+- **Promillewert berechnen** mit biologischem Geschlecht & Körpergewicht  
+- Verwendung der **Widmark-Formel** für realitätsnahe Schätzungen  
+- Grafische Darstellung des **Alkoholabbaus im Promille-Verlauf**  
+- Einschätzung, **wann du wieder nüchtern** bist  
+- Lokale Speicherung deiner Eingaben – kein Konto nötig  
+- **Komplett offline** nutzbar – keine Internetverbindung erforderlich  
+- Modernes, übersichtliches Design für einfache Bedienung  
+- **Promille-Rechner** speziell für schnelle Orientierung in Alltagssituationen  
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## ⚠️ Haftungsausschluss
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Die angezeigten Werte sind **mathematische Schätzungen**.  
+Sie dienen ausschließlich der groben Orientierung und stellen **keine rechtsverbindlichen Aussagen** über deine Fahrtüchtigkeit dar.
 
-## Get a fresh project
+Diese App ersetzt keine medizinische Beratung oder juristische Bewertung.
 
-When you're ready, run:
+**Don't drink and drive!**
 
-```bash
-npm run reset-project
-```
+---
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🔐 Datenschutzfreundlich
 
-## Learn more
+- Keine Werbung  
+- Keine Analyse- oder Tracking-Tools  
+- **Keine Datenübertragung** – alles bleibt lokal auf deinem Gerät
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🚀 Ideal für alle, die…
 
-## Join the community
+- ...einen **Promille-Rechner** nach dem Feiern brauchen  
+- ...wissen möchten, **wann der Alkohol abgebaut ist**  
+- ...sich für den Zusammenhang von **Alkohol, Promille & Fahrtüchtigkeit** interessieren  
+- ...eine einfache, **offline nutzbare** App ohne Schnickschnack suchen
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📌 Weitere Hinweise
+
+Diese App richtet sich an volljährige Nutzer*innen.  
+Bitte konsumiere Alkohol verantwortungsbewusst.
+
+---
+
+## 🔗 Rechtliches
+
+- 📄 [Datenschutzerklärung](./datenschutz.md)  
+- 🧾 [Impressum](./impressum.md)
+
+---
+
+## 🧠 Keywords für Auffindbarkeit
+
+- promille berechnen
+- alkoholrechner
+- bac calculator
+- widmark formel
+- promillerechner
+- alkohol abbauen
+- nüchtern werden
+- fahrtüchtigkeit
+
+
+
+---
+
+## 📸 Screenshots (Beispiel – einfügen in Play Store & Readme)
+
+- Eingabeansicht (Geschlecht & Gewicht)  
+- Promilleanzeige mit Verlauf  
+- Info & Haftungsausschluss
+
+---
+
+## ✨ Entwickelt mit
+
+- [Expo](https://expo.dev/)
+- [React Native](https://reactnative.dev/)
+- Lokalem `AsyncStorage` für Benutzerdaten
+
+---
+
+## 👨‍💻 Entwickler
+
+**Nicolas Paulik**  
+promillerechner.info@gmail.com
+
+Veröffentlichung in eigenem Namen
+
+---
+
+*Stand: Mai 2025*
+
