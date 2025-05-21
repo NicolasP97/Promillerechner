@@ -3,11 +3,17 @@
     "name": "Promillerechner",
     "slug": "promillerechner",
     "version": "1.0.0",
+
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "promillerechner",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false
+      }
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nicolas.promillerechner",
@@ -44,6 +50,7 @@
         }
       ]
     ],
+
     "experiments": {
       "typedRoutes": true
     },
