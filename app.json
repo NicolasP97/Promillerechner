@@ -9,11 +9,6 @@
     "scheme": "promillerechner",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "doctor": {
-      "reactNativeDirectoryCheck": {
-        "listUnknownPackages": false
-      }
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.nicolas.promillerechner",

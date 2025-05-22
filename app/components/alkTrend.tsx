@@ -265,15 +265,19 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
         ))}
 
         {/* 0,5 Promille-Marker */}
-        <Line
-          x1={halfPromille}
-          y1={toY(0.5)}
-          x2={halfPromille}
-          y2="100"
-          stroke="rgb(186, 184, 184)"
-          strokeWidth="1"
-          strokeDasharray="5,3" // gestrichelt für Style
-        />
+        {maxPromille > 0.5 ? (
+          <Line
+            x1={halfPromille}
+            y1={toY(0.5)}
+            x2={halfPromille}
+            y2="100"
+            stroke="rgb(186, 184, 184)"
+            strokeWidth="1"
+            strokeDasharray="5,3" // gestrichelt für Style
+          />
+        ) : (
+          ""
+        )}
 
         {/* 0,5 Promille Markierung mit Info der Uhrzeit */}
         {/* Halo-Kreis außen */}

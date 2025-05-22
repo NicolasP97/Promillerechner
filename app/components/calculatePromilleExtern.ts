@@ -1,5 +1,3 @@
-import { useUser } from "../context/UserContext";
-
 type AlkoholEintrag = {
   volume: string;
   strength: string;
@@ -8,7 +6,7 @@ type AlkoholEintrag = {
 
 export default function calculatePromilleExtern(
   daten: AlkoholEintrag[],
-  gewicht: number,
+  gewicht: number | 0,
   time: Date | null,
   geschlecht: "male" | "female" | null
 ): { promille: number; stundenSeitTrinken: number } {
@@ -39,6 +37,14 @@ export default function calculatePromilleExtern(
     const alkoholInGramm = volumeML * (strength / 100) * 0.8 * anzahl;
     return summe + alkoholInGramm;
   }, 0);
+
+  // Fehlerfall: Kein gültiges Gewicht → Sonderwert zurückgeben
+  if (!gewicht || gewicht <= 0 || isNaN(gewicht)) {
+    return {
+      promille: 9999,
+      stundenSeitTrinken: stunden,
+    };
+  }
 
   const promille =
     (gesamtAlkohol * 0.9) / (distributionFactor * gewicht) -

@@ -71,22 +71,29 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
       <Text style={styles.text}>
         Promillewert aktuell:
         <Text style={styles.ergebnis}>
-          {ergebnis !== null && ergebnis > 1000
-            ? " Gewicht eingegeben?"
-            : ergebnis !== null
-            ? ` ${ergebnis.toFixed(2)} ‰`
-            : " -"}
+          {ergebnis !== null && ergebnis > 1000 ? (
+            <Text style={styles.gewichtText}> Gewicht schon eingegeben?</Text>
+          ) : ergebnis > 5 ? (
+            <Text style={styles.highPromilleText}>
+              {" "}
+              {ergebnis.toFixed(2)}‰ 🤔
+            </Text>
+          ) : ergebnis !== null ? (
+            ` ${ergebnis.toFixed(2)}‰`
+          ) : (
+            " -"
+          )}
         </Text>
       </Text>
 
-      {ergebnis !== 0 ? (
+      {ergebnis !== 0 && ergebnis <= 20 ? (
         <PromilleChart promille={ergebnis} time={drinkingTime} />
       ) : (
         ""
       )}
 
       <Text style={styles.disclaimer}>
-        {ergebnis !== null && ergebnis >= 0.2 ? (
+        {ergebnis !== null && ergebnis >= 0.2 && ergebnis < 50 ? (
           <>
             Bereits ab 0,2 ‰ kann die Fahrtüchtigkeit beeinträchtigt sein. Die
             dargestellten Werte basieren auf einer Schätzung und sind nicht
@@ -142,6 +149,16 @@ const styles = StyleSheet.create({
   ergebnis: {
     fontSize: 26,
     color: "white",
+    fontFamily: "QuicksandBold",
+  },
+  gewichtText: {
+    fontSize: 24,
+    color: "cyan",
+    fontFamily: "QuicksandBold",
+  },
+  highPromilleText: {
+    fontSize: 26,
+    color: "red",
     fontFamily: "QuicksandBold",
   },
   disclaimer: {
