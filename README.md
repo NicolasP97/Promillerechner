@@ -79,11 +79,18 @@ Bitte konsumiere Alkohol verantwortungsbewusst.
 
 ---
 
-## 📸 Screenshots (Beispiel – einfügen in Play Store & Readme)
+## 📸 Screenshots
 
-- Eingabeansicht (Geschlecht & Gewicht)  
-- Promilleanzeige mit Verlauf  
-- Info & Haftungsausschluss
+<p float="left">
+  <img src="./assets/images/Smartphone%20Screenshot%201.png" width="220" />
+  <img src="./assets/images/Smartphone%20Screenshot%202.png" width="220" />
+  <img src="./assets/images/Smartphone%20Screenshot%203.png" width="220" />
+  <img src="./assets/images/Smartphone%20Screenshot%204.png" width="220" />
+   <img src="./assets/images/Smartphone%20Screenshot%205.png" width="220" />
+  <img src="./assets/images/Smartphone%20Screenshot%206.png" width="220" />
+  <img src="./assets/images/Smartphone%20Screenshot%207.png" width="220" />
+  <img src="./assets/images/Smartphone%20Screenshot%208.png" width="220" />
+</p>
 
 ---
 
