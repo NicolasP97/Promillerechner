@@ -12,6 +12,7 @@ import { useRef } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import RemoveAlkohol from "./removeAlkohol";
+import Alkoholtimes from "./alkoholTimes";
 
 type AlkoholArtProps = {
   id: number;
@@ -34,6 +35,7 @@ export default function AlkoholArt({
   onChange,
   onRemove,
 }: AlkoholArtProps) {
+  const anzahlAsNumber = Number(anzahl);
   // Für Löschanimmation der Alkoholarten
   const opacity = useRef(new Animated.Value(1)).current;
   const scale = useRef(new Animated.Value(1)).current;
@@ -197,6 +199,13 @@ export default function AlkoholArt({
           </Animated.View>
         </View>
       </View>
+      <View style={styles.alkoholTimesContainer}>
+        {anzahlAsNumber !== 0
+          ? Array.from({ length: anzahlAsNumber }, (_, i) => (
+              <Alkoholtimes key={i} count={anzahlAsNumber} nummer={i + 1} />
+            ))
+          : null}
+      </View>
     </Animated.View>
   );
 }
@@ -279,5 +288,12 @@ const styles = StyleSheet.create({
     marginTop: 7,
     alignItems: "center",
     justifyContent: "center",
+  },
+  alkoholTimesContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexWrap: "wrap", // Wenn zu viele Buttons -> untereinander gerendert
   },
 });
