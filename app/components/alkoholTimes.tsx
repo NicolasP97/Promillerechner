@@ -17,9 +17,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 type AlkoholTimesProps = {
   count: number;
   nummer: number;
+  id: number;
 };
 
-export default function Alkoholtimes({ count, nummer }: AlkoholTimesProps) {
+export default function Alkoholtimes({ count, nummer, id }: AlkoholTimesProps) {
   const [time, setTime] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const scale = useRef(new Animated.Value(1)).current;
@@ -71,8 +72,20 @@ export default function Alkoholtimes({ count, nummer }: AlkoholTimesProps) {
             style={styles.gradientButton}
           >
             <View style={styles.nummerContainer}>
-              <Text style={styles.buttonText}>{nummer}. </Text>
-              <Ionicons name="time-outline" size={20} color="white" />
+              <Text style={styles.buttonText}>
+                {nummer}.
+                {id === 1 ? (
+                  <Text>🍺</Text>
+                ) : id === 2 ? (
+                  <Text>🍷</Text>
+                ) : id === 3 ? (
+                  <Text>🥃</Text>
+                ) : id === 4 ? (
+                  <Text>🍹</Text>
+                ) : id === 5 ? (
+                  <Text>🍸</Text>
+                ) : null}
+              </Text>
             </View>
             <Text style={styles.buttonText}>{formattedTime}</Text>
           </LinearGradient>

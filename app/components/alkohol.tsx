@@ -114,8 +114,6 @@ export default function AlkoholArt({
     });
   };
 
-  const colors = ["#6c63ff", "rgb(39, 3, 82)"];
-
   return (
     <Animated.View
       style={[
@@ -202,7 +200,12 @@ export default function AlkoholArt({
       <View style={styles.alkoholTimesContainer}>
         {anzahlAsNumber !== 0
           ? Array.from({ length: anzahlAsNumber }, (_, i) => (
-              <Alkoholtimes key={i} count={anzahlAsNumber} nummer={i + 1} />
+              <Alkoholtimes
+                key={i}
+                count={anzahlAsNumber}
+                nummer={i + 1}
+                id={id}
+              />
             ))
           : null}
       </View>
