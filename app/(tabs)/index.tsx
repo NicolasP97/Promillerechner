@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { useState, useEffect } from "react";
+import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
@@ -104,15 +105,43 @@ export default function Index() {
     setAlkoholDaten((prev) =>
       prev.map((item) => (item.id === id ? { ...item, [field]: value } : item))
     );
-    console.log("ALkoholdaten[: ", alkoholDaten);
   };
+
+  useEffect(() => {
+    console.log("💧 Aktuelle drinkEvents:", drinkEvents);
+  }, [drinkEvents]);
 
   // Fügt genau ein neues DrinkEvent mit Zeitstempel hinzu
   const addDrinkEvent = (drinkTypeId: number, when: Date) => {
-    setDrinkEvents((prev) => [
-      ...prev,
-      { id: uuidv4(), drinkTypeId, timestamp: when.toISOString() },
-    ]);
+    const newEvent = {
+      id: uuidv4(),
+      drinkTypeId,
+      timestamp: when.toISOString(),
+    };
+    console.log("🚀 Neues DrinkEvent:", newEvent);
+    setDrinkEvents((prev) => [...prev, newEvent]);
+  };
+
+  // entfernt genau ein Event des gegebenen Typs (das zuletzt hinzugefügte)
+  const removeDrinkEvent = (drinkTypeId: number) => {
+    setDrinkEvents((prev) => {
+      // finde den letzten Index mit matching drinkTypeId
+      const idx = prev.map((e) => e.drinkTypeId).lastIndexOf(drinkTypeId);
+      if (idx === -1) return prev;
+      // kopiere Array und entferne dieses eine Element
+      const next = [...prev];
+      next.splice(idx, 1);
+      return next;
+    });
+  };
+
+  // update bereits vorhandene drinkEvents wenn neue Zeit angegeben wird
+  const updateDrinkEvent = (eventId: string, newTime: Date) => {
+    setDrinkEvents((prev) =>
+      prev.map((evt) =>
+        evt.id === eventId ? { ...evt, timestamp: newTime.toISOString() } : evt
+      )
+    );
   };
 
   return (
@@ -152,6 +181,12 @@ export default function Index() {
                     );
                     updateDaten(item.id, "anzahl", "0");
                   }}
+                  onDrinkEvent={addDrinkEvent}
+                  onRemoveDrinkEvent={removeDrinkEvent}
+                  drinkEvents={drinkEvents.filter(
+                    (e) => e.drinkTypeId === item.id
+                  )}
+                  updateDrinkEvent={updateDrinkEvent}
                 />
               ))}
 
@@ -163,7 +198,11 @@ export default function Index() {
                 }
               }}
             />
-            <Berechnung daten={alkoholDaten} time={selectedTime} />
+            <Berechnung
+              daten={alkoholDaten}
+              time={selectedTime}
+              drinkEvents={drinkEvents}
+            />
             <DisclaimerModal visible={showDisclaimer} onAccept={handleAccept} />
           </ScrollView>
         </TouchableWithoutFeedback>

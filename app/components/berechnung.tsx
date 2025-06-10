@@ -12,6 +12,7 @@ import calculatePromilleExtern from "./calculatePromilleExtern";
 import PromilleChart from "./alkTrend";
 
 type AlkoholEintrag = {
+  id: number;
   volume: string;
   strength: string;
   anzahl: string;
@@ -20,9 +21,18 @@ type AlkoholEintrag = {
 type BerechnungProps = {
   daten: AlkoholEintrag[];
   time: Date | null;
+  drinkEvents: {
+    id: string;
+    drinkTypeId: number;
+    timestamp: string;
+  }[];
 };
 
-export default function Berechnung({ daten, time }: BerechnungProps) {
+export default function Berechnung({
+  daten,
+  time,
+  drinkEvents,
+}: BerechnungProps) {
   const [ergebnis, setErgebnis] = useState<number>(0);
   const [drinkingTime, setDrinkingTime] = useState<number>(0);
   const { gender: geschlecht, massKG: gewicht } = useUser();
@@ -47,6 +57,21 @@ export default function Berechnung({ daten, time }: BerechnungProps) {
 
   const calculatePromille = () => {
     const result = calculatePromilleExtern(daten, gewicht, time, geschlecht);
+
+    // neu: individuelle Promille pro Event ermitteln
+    const promilleByEvent = drinkEvents.map((evt) => {
+      const t = new Date(evt.timestamp);
+      // hier baust Du ein Eintrags-Array nur mit genau diesem einen Drink zusammen
+      const single = daten.map((d) =>
+        d.id === evt.drinkTypeId ? { ...d, anzahl: "1" } : { ...d, anzahl: "0" }
+      );
+      return {
+        time: t,
+        promille: calculatePromilleExtern(single, gewicht, t, geschlecht)
+          .promille,
+      };
+    });
+
     setDrinkingTime(result.stundenSeitTrinken);
     setErgebnis(result.promille);
   };

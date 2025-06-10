@@ -22,7 +22,11 @@ type AlkoholArtProps = {
   strength: string;
   anzahl: string;
   onChange: (id: number, field: string, value: string) => void;
-  onRemove: () => void; // z. B. "Wein", "Schnaps"
+  onRemove: () => void;
+  onDrinkEvent: (id: number, time: Date) => void;
+  onRemoveDrinkEvent: (id: number) => void;
+  drinkEvents: { id: string; drinkTypeId: number; timestamp: string }[];
+  updateDrinkEvent: (eventId: string, time: Date) => void;
 };
 
 export default function AlkoholArt({
@@ -34,7 +38,12 @@ export default function AlkoholArt({
   anzahl,
   onChange,
   onRemove,
+  onDrinkEvent,
+  onRemoveDrinkEvent,
+  drinkEvents,
+  updateDrinkEvent,
 }: AlkoholArtProps) {
+  const evts = drinkEvents;
   const anzahlAsNumber = Number(anzahl);
   // Für Löschanimmation der Alkoholarten
   const opacity = useRef(new Animated.Value(1)).current;
@@ -77,11 +86,16 @@ export default function AlkoholArt({
   const increment = () => {
     const current = parseFloat(anzahl) || 0;
     onChange(id, "anzahl", String(current + 1));
+    // direkt ein DrinkEvent mit "now" anlegen:
+    onDrinkEvent(id, new Date());
   };
 
   const decrement = () => {
     const current = parseFloat(anzahl) || 0;
     onChange(id, "anzahl", String(Math.max(current - 1, 0)));
+    if (current > 0) {
+      onRemoveDrinkEvent(id);
+    }
   };
 
   //  Animierter fade out beim löschen der Alkoholart
@@ -198,16 +212,16 @@ export default function AlkoholArt({
         </View>
       </View>
       <View style={styles.alkoholTimesContainer}>
-        {anzahlAsNumber !== 0
-          ? Array.from({ length: anzahlAsNumber }, (_, i) => (
-              <Alkoholtimes
-                key={i}
-                count={anzahlAsNumber}
-                nummer={i + 1}
-                id={id}
-              />
-            ))
-          : null}
+        {evts.map((evt, idx) => (
+          <Alkoholtimes
+            key={evt.id}
+            count={evts.length}
+            nummer={idx + 1}
+            id={id}
+            eventId={evt.id} // ★
+            onTimeChange={(t: Date) => updateDrinkEvent(evt.id, t)}
+          />
+        ))}
       </View>
     </Animated.View>
   );

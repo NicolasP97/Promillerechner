@@ -2,25 +2,28 @@ import {
   Text,
   View,
   StyleSheet,
-  Image,
-  ImageSourcePropType,
-  TextInput,
   TouchableOpacity,
   Animated,
   Platform,
 } from "react-native";
 import { useState, useRef } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 type AlkoholTimesProps = {
   count: number;
   nummer: number;
   id: number;
+  eventId: string;
+  onTimeChange: (t: Date) => void;
 };
 
-export default function Alkoholtimes({ count, nummer, id }: AlkoholTimesProps) {
+export default function Alkoholtimes({
+  nummer,
+  id,
+  eventId,
+  onTimeChange,
+}: AlkoholTimesProps) {
   const [time, setTime] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const scale = useRef(new Animated.Value(1)).current;
@@ -49,6 +52,7 @@ export default function Alkoholtimes({ count, nummer, id }: AlkoholTimesProps) {
     setShowPicker(Platform.OS === "ios");
     if (selectedDate) {
       setTime(selectedDate);
+      onTimeChange(selectedDate);
     }
   };
 
