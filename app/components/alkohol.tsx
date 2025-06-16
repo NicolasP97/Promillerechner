@@ -27,6 +27,7 @@ type AlkoholArtProps = {
   onRemoveDrinkEvent: (id: number) => void;
   drinkEvents: { id: string; drinkTypeId: number; timestamp: string }[];
   updateDrinkEvent: (eventId: string, time: Date) => void;
+  removeAllDrinkEvents: (id: number) => void;
 };
 
 export default function AlkoholArt({
@@ -42,6 +43,7 @@ export default function AlkoholArt({
   onRemoveDrinkEvent,
   drinkEvents,
   updateDrinkEvent,
+  removeAllDrinkEvents,
 }: AlkoholArtProps) {
   const evts = drinkEvents;
   const anzahlAsNumber = Number(anzahl);
@@ -137,7 +139,10 @@ export default function AlkoholArt({
     >
       <View style={styles.headerWrapper}>
         <Text style={styles.header}>{art}</Text>
-        <RemoveAlkohol onRemove={handleRemove} />
+        <RemoveAlkohol
+          onRemove={handleRemove}
+          removeAllDrinkEvents={() => removeAllDrinkEvents(id)}
+        />
       </View>
       <View style={styles.row}>
         <View style={styles.imageWrapper}>
@@ -168,6 +173,7 @@ export default function AlkoholArt({
             value={anzahl}
             onChangeText={(text) => onChange(id, "anzahl", text)}
             keyboardType="numeric"
+            editable={false}
           />
 
           <Animated.View
@@ -218,7 +224,7 @@ export default function AlkoholArt({
             count={evts.length}
             nummer={idx + 1}
             id={id}
-            eventId={evt.id} // ★
+            eventId={evt.id}
             onTimeChange={(t: Date) => updateDrinkEvent(evt.id, t)}
           />
         ))}

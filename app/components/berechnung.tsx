@@ -4,12 +4,29 @@ import {
   StyleSheet,
   TouchableOpacity,
   Animated,
+  ImageSourcePropType,
 } from "react-native";
 import { useState, useRef } from "react";
 import { useUser } from "../context/UserContext";
 import { LinearGradient } from "expo-linear-gradient";
 import calculatePromilleExtern from "./calculatePromilleExtern";
 import PromilleChart from "./alkTrend";
+import { computePromilleHistory } from "./calculatePromilleExtern";
+
+interface DrinkType {
+  id: number;
+  art: string;
+  volume: string;
+  strength: string;
+  anzahl: string;
+  source: ImageSourcePropType;
+}
+
+interface DrinkEvent {
+  id: string;
+  drinkTypeId: number;
+  timestamp: string;
+}
 
 type AlkoholEintrag = {
   id: number;
@@ -20,7 +37,6 @@ type AlkoholEintrag = {
 
 type BerechnungProps = {
   daten: AlkoholEintrag[];
-  time: Date | null;
   drinkEvents: {
     id: string;
     drinkTypeId: number;
@@ -28,14 +44,15 @@ type BerechnungProps = {
   }[];
 };
 
-export default function Berechnung({
-  daten,
-  time,
-  drinkEvents,
-}: BerechnungProps) {
+type HistoryPoint = {
+  time: Date;
+  promille: number;
+};
+
+export default function Berechnung({ daten, drinkEvents }: BerechnungProps) {
   const [ergebnis, setErgebnis] = useState<number>(0);
-  const [drinkingTime, setDrinkingTime] = useState<number>(0);
   const { gender: geschlecht, massKG: gewicht } = useUser();
+  const [history, setHistory] = useState<HistoryPoint[]>([]);
 
   const scale = useRef(new Animated.Value(1)).current;
 
@@ -56,8 +73,6 @@ export default function Berechnung({
   };
 
   const calculatePromille = () => {
-    const result = calculatePromilleExtern(daten, gewicht, time, geschlecht);
-
     // neu: individuelle Promille pro Event ermitteln
     const promilleByEvent = drinkEvents.map((evt) => {
       const t = new Date(evt.timestamp);
@@ -72,8 +87,30 @@ export default function Berechnung({
       };
     });
 
-    setDrinkingTime(result.stundenSeitTrinken);
-    setErgebnis(result.promille);
+    const timesArray = promilleByEvent.map((e) => e.time);
+    const promilleArray = promilleByEvent.map((e) => e.promille);
+    const promilleGesamt = promilleArray
+      .reduce((sum, val) => sum + val, 0)
+      .toFixed(2);
+
+    console.log("promilleByEvent: ", promilleByEvent);
+    console.log("timesArray: ", timesArray);
+    console.log("promilleArray: ", promilleArray);
+    console.log("promilleGesamt: ", promilleGesamt);
+
+    setErgebnis(Number(promilleGesamt));
+    setHistory(promilleByEvent);
+
+    // Jetzt die History berechnen:
+
+    const hist = computePromilleHistory(
+      daten as DrinkType[],
+      drinkEvents as DrinkEvent[],
+      gewicht,
+      geschlecht
+    );
+    console.log("Gesamt-Promille-History:", hist);
+    setHistory(hist);
   };
 
   return (
@@ -112,7 +149,7 @@ export default function Berechnung({
       </Text>
 
       {ergebnis !== 0 && ergebnis <= 20 ? (
-        <PromilleChart promille={ergebnis} time={drinkingTime} />
+        <PromilleChart promille={ergebnis} history={history} />
       ) : (
         ""
       )}

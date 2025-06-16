@@ -122,7 +122,7 @@ export default function Index() {
     setDrinkEvents((prev) => [...prev, newEvent]);
   };
 
-  // entfernt genau ein Event des gegebenen Typs (das zuletzt hinzugefügte)
+  // entfernt genau ein Event des gegebenen Typs
   const removeDrinkEvent = (drinkTypeId: number) => {
     setDrinkEvents((prev) => {
       // finde den letzten Index mit matching drinkTypeId
@@ -133,6 +133,12 @@ export default function Index() {
       next.splice(idx, 1);
       return next;
     });
+  };
+
+  const removeAllDrinkEvents = (drinkTypeId: number) => {
+    setDrinkEvents(
+      drinkEvents.filter((item) => item.drinkTypeId !== drinkTypeId)
+    );
   };
 
   // update bereits vorhandene drinkEvents wenn neue Zeit angegeben wird
@@ -187,6 +193,7 @@ export default function Index() {
                     (e) => e.drinkTypeId === item.id
                   )}
                   updateDrinkEvent={updateDrinkEvent}
+                  removeAllDrinkEvents={removeAllDrinkEvents}
                 />
               ))}
 
@@ -198,11 +205,7 @@ export default function Index() {
                 }
               }}
             />
-            <Berechnung
-              daten={alkoholDaten}
-              time={selectedTime}
-              drinkEvents={drinkEvents}
-            />
+            <Berechnung daten={alkoholDaten} drinkEvents={drinkEvents} />
             <DisclaimerModal visible={showDisclaimer} onAccept={handleAccept} />
           </ScrollView>
         </TouchableWithoutFeedback>

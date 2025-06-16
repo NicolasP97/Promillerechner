@@ -1,15 +1,24 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { useRef } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 type RemoveAlkoholProps = {
   onRemove: () => void;
+  removeAllDrinkEvents: () => void;
 };
 
-export default function RemoveAlkohol({ onRemove }: RemoveAlkoholProps) {
+export default function RemoveAlkohol({
+  onRemove,
+  removeAllDrinkEvents,
+}: RemoveAlkoholProps) {
   return (
     <View style={styles.trashIconWrapper}>
-      <TouchableOpacity onPress={onRemove} style={styles.button}>
+      <TouchableOpacity
+        onPress={() => {
+          onRemove();
+          removeAllDrinkEvents();
+        }}
+        style={styles.button}
+      >
         <Ionicons name="trash-outline" size={24} color="cyan" />
       </TouchableOpacity>
     </View>
