@@ -1,4 +1,5 @@
 import { ImageSourcePropType } from "react-native";
+
 type AlkoholEintrag = {
   volume: string;
   strength: string;
@@ -83,84 +84,118 @@ export function computePromilleAt(
   geschlecht: "male" | "female" | null,
   at: Date
 ): number {
-  // 1) Nur Drinks bis zum Zeitpunkt at berücksichtigen
+  const distributionFactor = geschlecht === "male" ? 0.68 : 0.55;
+  const reductionFactor = 0.11;
+
+  // Nur Drinks bis zum Zeitpunkt at berücksichtigen
   const pastEvents = drinkEvents.filter(
     (evt) => new Date(evt.timestamp).getTime() <= at.getTime()
   );
 
-  // 2) Für jeden Event den Einzel-Promille-Wert berechnen und aufsummieren
-  const totalPromille = pastEvents.reduce((sum, evt) => {
-    // Erzeuge für genau diesen Drink ein temporäres Array,
-    // in dem nur dieser DrinkType einmalig mit anzahl="1" auftaucht:
-    const single: AlkoholEintrag[] = drinkTypes.map((d) =>
-      d.id === evt.drinkTypeId
-        ? { volume: d.volume, strength: d.strength, anzahl: "1" }
-        : { volume: d.volume, strength: d.strength, anzahl: "0" }
-    );
+  // Für jeden Drink berechnen: Wie viel Gramm Alkohol ist zum Zeitpunkt at noch da?
+  const totalGrams = pastEvents.reduce((sum, evt) => {
+    const type = drinkTypes.find((d) => d.id === evt.drinkTypeId);
+    if (!type) return sum;
 
-    // Nutze calculatePromilleExtern, um für genau dieses Getränk
-    // zur Zeit `at` den Promille-Wert inklusive Abbau zu erhalten:
-    const p = calculatePromilleExtern(single, gewicht, at, geschlecht).promille;
+    const volumeML = parseFloat(type.volume);
+    const strength = parseFloat(type.strength);
+    const grams = volumeML * (strength / 100) * 0.8;
 
-    return sum + p;
+    // Hier der entscheidende Unterschied:
+    const drankAt = new Date(evt.timestamp);
+    const hours = (at.getTime() - drankAt.getTime()) / 3_600_000;
+    const remaining = Math.max(grams - reductionFactor * hours, 0);
+    console.log("evt", evt, "hours", hours, "remaining", remaining);
+    return sum + remaining;
   }, 0);
 
-  // 3) Gesamt-Promille darf nicht negativ werden
-  return Math.max(totalPromille, 0);
+  // Widmark-Formel
+  const promille = (totalGrams * 0.9) / (distributionFactor * gewicht);
+  return Math.max(promille, 0);
 }
 
 export function computePromilleHistory(
   drinkTypes: DrinkType[],
   drinkEvents: DrinkEvent[],
   gewicht: number,
-  geschlecht: "male" | "female" | null
+  geschlecht: "male" | "female" | null,
+  aktuellerPromillewert: number | 0
 ): HistoryPoint[] {
+  const reductionFactor = 0.11;
+  const distributionFactor = geschlecht === "male" ? 0.68 : 0.55;
+
   // 1) Chronologisch sortieren
   const sorted = [...drinkEvents].sort(
     (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
   );
 
-  const history: HistoryPoint[] = [];
+  let history: HistoryPoint[] = [];
 
-  // 2) Peak + Abbau-Punkt pro Event
   sorted.forEach((evt, idx) => {
     const tEvent = new Date(evt.timestamp);
-    // a) Peak direkt nach dem Drink
-    const peak = computePromilleAt(
-      drinkTypes,
-      drinkEvents,
-      gewicht,
-      geschlecht,
-      tEvent
-    );
-    history.push({ time: tEvent, promille: +peak.toFixed(3) });
 
-    // b) 1 Sekunde vor dem nächsten Event: Abbau
+    // 1. Für alle bisherigen Drinks berechnen: Wie viel Promille bleibt noch übrig bis tEvent?
+    let promilleSum = 0;
+
+    for (let j = 0; j <= idx; j++) {
+      const earlierEvt = sorted[j];
+      const earlierType = drinkTypes.find(
+        (d) => d.id === earlierEvt.drinkTypeId
+      );
+      if (!earlierType) continue;
+
+      const volumeML = parseFloat(earlierType.volume);
+      const strength = parseFloat(earlierType.strength);
+      const grams = volumeML * (strength / 100) * 0.8;
+      const earlierPeak = (grams * 0.9) / (distributionFactor * gewicht);
+
+      const earlierTime = new Date(earlierEvt.timestamp);
+      const hours = (tEvent.getTime() - earlierTime.getTime()) / 3_600_000;
+      const reduced = Math.max(earlierPeak - reductionFactor * hours, 0);
+
+      promilleSum += reduced;
+    }
+
+    // 2. Das ist jetzt der tatsächliche Promillewert beim Event-Zeitpunkt!
+    history.push({ time: tEvent, promille: +promilleSum.toFixed(3) });
+
+    // 3. Für Drop (eine Sekunde vor dem nächsten Event)
     if (idx < sorted.length - 1) {
       const nextTime = new Date(sorted[idx + 1].timestamp);
       const justBefore = new Date(nextTime.getTime() - 1000);
-      const drop = computePromilleAt(
-        drinkTypes,
-        drinkEvents,
-        gewicht,
-        geschlecht,
-        justBefore
-      );
-      history.push({ time: justBefore, promille: +drop.toFixed(3) });
+
+      // Summe aller bisherigen Drinks, abgebaut bis justBefore
+      let dropSum = 0;
+      for (let j = 0; j <= idx; j++) {
+        const earlierEvt = sorted[j];
+        const earlierType = drinkTypes.find(
+          (d) => d.id === earlierEvt.drinkTypeId
+        );
+        if (!earlierType) continue;
+
+        const volumeML = parseFloat(earlierType.volume);
+        const strength = parseFloat(earlierType.strength);
+        const grams = volumeML * (strength / 100) * 0.8;
+        const earlierPeak = (grams * 0.9) / (distributionFactor * gewicht);
+
+        const earlierTime = new Date(earlierEvt.timestamp);
+        const hours =
+          (justBefore.getTime() - earlierTime.getTime()) / 3_600_000;
+        const reduced = Math.max(earlierPeak - reductionFactor * hours, 0);
+
+        dropSum += reduced;
+      }
+      history.push({ time: justBefore, promille: +dropSum.toFixed(3) });
     }
   });
 
-  // 3) Punkt "jetzt", damit History nahtlos bei future[0] ansetzt
-  const now = new Date();
-  const nowP = computePromilleAt(
-    drinkTypes,
-    drinkEvents,
-    gewicht,
-    geschlecht,
-    now
-  );
-  history.push({ time: now, promille: +nowP.toFixed(3) });
+  // Am Ende: Jetzt-Wert über calculatePromilleExtern anhängen
+  const promilleJetzt = aktuellerPromillewert;
+  history.push({
+    time: new Date(),
+    promille: +aktuellerPromillewert.toFixed(3),
+  });
 
-  // 4) Chronologische Sortierung und Rückgabe
+  // Chronologisch sortieren (safety, falls du es brauchst)
   return history.sort((a, b) => a.time.getTime() - b.time.getTime());
 }

@@ -76,7 +76,7 @@ export default function Berechnung({ daten, drinkEvents }: BerechnungProps) {
     // neu: individuelle Promille pro Event ermitteln
     const promilleByEvent = drinkEvents.map((evt) => {
       const t = new Date(evt.timestamp);
-      // hier baust Du ein Eintrags-Array nur mit genau diesem einen Drink zusammen
+      // hier wird ein Eintrags-Array mit nur genau diesem einen Drink und dessen Promillewert erstellt
       const single = daten.map((d) =>
         d.id === evt.drinkTypeId ? { ...d, anzahl: "1" } : { ...d, anzahl: "0" }
       );
@@ -102,12 +102,12 @@ export default function Berechnung({ daten, drinkEvents }: BerechnungProps) {
     setHistory(promilleByEvent);
 
     // Jetzt die History berechnen:
-
     const hist = computePromilleHistory(
       daten as DrinkType[],
       drinkEvents as DrinkEvent[],
       gewicht,
-      geschlecht
+      geschlecht,
+      Number(promilleGesamt) // Damit direkt das ergebnis synchron übergeben wird
     );
     console.log("Gesamt-Promille-History:", hist);
     setHistory(hist);

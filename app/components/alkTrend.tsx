@@ -80,13 +80,31 @@ export default function PromilleChart({
 
   // === 3) Pfade zusammenbauen ===
   // 3a) Historischer Verlauf (solid line)
+  // Hilfsfunktion zur Kurvenglättung
+  type Point = { x: number; y: number };
+  function catmullRom2bezier(points: Point[]): string {
+    if (points.length < 2) return "";
+    let d = `M ${points[0].x} ${points[0].y}`;
+    for (let i = 0; i < points.length - 1; i++) {
+      const p0 = points[i === 0 ? i : i - 1];
+      const p1 = points[i];
+      const p2 = points[i + 1];
+      const p3 = points[i + 2] || p2;
+      // Catmull-Rom zu Bezier Formel:
+      const cp1x = p1.x + (p2.x - p0.x) / 6;
+      const cp1y = p1.y + (p2.y - p0.y) / 6;
+      const cp2x = p2.x - (p3.x - p1.x) / 6;
+      const cp2y = p2.y - (p3.y - p1.y) / 6;
+      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+    }
+    return d;
+  }
+
   const histPoints = history.map((h) => ({
     x: toX((h.time.getTime() - timeNow.getTime()) / 60000),
     y: toY(h.promille),
   }));
-  const pathHist = histPoints
-    .map((pt, i) => `${i === 0 ? "M" : "L"} ${pt.x} ${pt.y}`)
-    .join(" ");
+  const pathHist = catmullRom2bezier(histPoints);
 
   // 3b) Prognose (dashed line)
   const pathFut = futureData
@@ -190,13 +208,14 @@ export default function PromilleChart({
         ))}
         {/* End-Label = Zeit bei 0 ‰ */}
         <Text
-          x={toX(totalMinutes)}
-          y={110}
-          fontSize="8"
+          x={129}
+          y={103}
+          fontSize="9"
+          fontFamily="QuicksandBold"
           textAnchor="middle"
           fill="white"
         >
-          {timeAtZero}
+          Zeit
         </Text>
 
         {/* Y-Achsen-Labels */}
@@ -212,6 +231,18 @@ export default function PromilleChart({
             {p.toFixed(2)}
           </Text>
         ))}
+
+        <Text
+          x={-10}
+          y={37} // vertikal mittig im Chart
+          fontSize="10"
+          fontFamily="QuicksandBold"
+          fill="white"
+          textAnchor="middle"
+          transform="rotate(-90, -10, 50)" // Drehung um den Punkt (x=-10, y=50)
+        >
+          Promille
+        </Text>
 
         {/* 0,5 ‰-Marker mit Animation */}
         {maxPromille > 0.5 && (
