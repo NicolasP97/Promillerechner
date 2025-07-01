@@ -1,0 +1,22 @@
+[33ma2d3a15[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m richtige Berechnung + graphische Darstellung der historischen Promillewerte, finally :)
+[33meddcd89[m Historische Promillewerte grafisch veranschaulichen To do: richtige berechnung der historischen Werte (ABbau in claculatePromilleExtern berücksichtigen)
+[33me8d7a59[m drinkEvents werden hinzugefügt und können entfernt werden, mit der richtigen zugehörigen Zeit
+[33mfaab8c4[m Zustand vor drinkEvent Äanderung
+[33md9a9ce3[m Individuelle Zeiterfassung angefangen
+[33mde303c4[m Merge branch 'master' of https://github.com/NicolasP97/Promillerechner
+[33m387fcf3[m Überprüfung, ob Gewicht > 0 hinzugefügt
+[33mb71c803[m Update README.md
+[33mfbc3f1c[m App Screenshots erstellt
+[33m5d2d3e4[m Merge branch 'master' of https://github.com/NicolasP97/Promillerechner
+[33m0852d3f[m Hinzugefügt: - Readme - Impressum - Datenschutzerklärung
+[33m6f52029[m Create datenschutz.md
+[33mf547010[m Create impressum.md
+[33m45676a5[m Update README.md
+[33mb24393d[m - Rechtliche Disclaimer + InfoModal hinzugefügt - App Icons bearbeitet
+[33m6a8c7d1[m Neu hinzugefügt: - Promiletrend Graph  - Anzeigecirle für 0,5 Promille mit Puls Animation  - Bugfix mit Uhrzeiteingabe und nicht aktualisiernder Promillezahl beim 1. Klick auf Berechnen
+[33m6125272[m - Funktion zum löschen der Alkoholarten - Fade out animation bei Löschen
+[33m4b4397d[m Designüberarbeitung: - Schriftarten hinzugefügt - Buttons verbessert - Tabbar verbessert
+[33m2010f90[m - Tab layout verbessert (labels lesbar, nichtmehr so hoch) - berechnung.tsx: Fall behandelt, dass über Mitternacht getrunken wird - disclaimer hinzugefügt
+[33mbbc355d[m eas CLI installiert für development build
+[33m834ef47[m Funktionale App, berechnet Promillewert abhängig von konsumiertem Alkohol, Geschlecht, Gewicht und vergangener Zeit
+[33m66bcfd6[m Initial commit
