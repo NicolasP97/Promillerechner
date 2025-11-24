@@ -33,7 +33,7 @@ export default function TimeInput({ onTimeChange }: TimeInputProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Saufen begonnen um:</Text>
+      <Text style={styles.text}>Trinken begonnen um:</Text>
 
       <TouchableOpacity onPress={() => setShowPicker(true)}>
         <LinearGradient

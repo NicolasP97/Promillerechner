@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 type AddAlkoholArtProps = {
   onAdd: (art: string) => void; // z. B. "Wein", "Schnaps"
@@ -25,7 +26,14 @@ export default function AddAlkoholArt({ onAdd }: AddAlkoholArtProps) {
     <View style={styles.container}>
       {/* Add Button */}
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Ionicons name="add-circle-outline" size={52} color="cyan" />
+        <View style={styles.addButton}>
+          <Ionicons name="add-circle-outline" size={52} color="cyan" />
+          <View style={styles.drinkIcons}>
+            <MaterialIcons name="sports-bar" size={24} color="cyan" />
+            <MaterialIcons name="local-bar" size={24} color="cyan" />
+            <MaterialIcons name="wine-bar" size={24} color="cyan" />
+          </View>
+        </View>
       </TouchableOpacity>
 
       {/* Modal */}
@@ -88,6 +96,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 10,
     marginBottom: 20,
+  },
+  addButton: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  drinkIcons: {
+    display: "flex",
+    flexDirection: "row",
   },
   modalOverlay: {
     flex: 1,

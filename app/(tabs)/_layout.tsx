@@ -39,7 +39,7 @@ export default function RootLayout() {
             height: 65 + insets.bottom, // erhöht die Leiste nur wenn nötig
             paddingBottom: insets.bottom > 0 ? insets.bottom / 2 : 8,
             paddingTop: 3,
-            backgroundColor: "#25292e",
+            backgroundColor: "rgba(0, 0, 0, 0.9)",
             borderTopWidth: 0,
           },
           tabBarLabelStyle: {
@@ -62,7 +62,8 @@ export default function RootLayout() {
               <Ionicons
                 name={focused ? "home-sharp" : "home-outline"}
                 color={color}
-                size={24}
+                size={focused ? 27 : 24}
+                style={{ marginBottom: focused ? -2 : 0 }}
               />
             ),
           }}
@@ -77,7 +78,8 @@ export default function RootLayout() {
               <Ionicons
                 name={focused ? "person-circle" : "person-circle-outline"}
                 color={color}
-                size={30}
+                size={focused ? 33 : 30}
+                style={{ marginBottom: focused ? -2 : 0 }}
               />
             ),
           }}
