@@ -282,18 +282,26 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
         {/* 0,5 Promille Markierung mit Info der Uhrzeit */}
         {/* Halo-Kreis außen */}
         {maxPromille > 0.5 ? (
-          <G onPressIn={handleClick}>
-            <Circle
-              cx={halfPromille}
-              cy={toY(0.5)}
-              r={r}
-              fill="#ff9500"
-              opacity={opacity}
-            />
+          <>
+            <G onPressIn={handleClick}>
+              <Circle
+                cx={halfPromille}
+                cy={toY(0.5)}
+                r={r + 15} // 👈 20px größerer Touchbereich – passe nach Wunsch an
+                fill="transparent"
+              />
+              <Circle
+                cx={halfPromille}
+                cy={toY(0.5)}
+                r={r}
+                fill="#ff9500"
+                opacity={opacity}
+              />
 
-            {/* Fester innerer Kreis */}
-            <Circle cx={halfPromille} cy={toY(0.5)} r={4} fill="#ff9500" />
-          </G>
+              {/* Fester innerer Kreis */}
+              <Circle cx={halfPromille} cy={toY(0.5)} r={4} fill="#ff9500" />
+            </G>
+          </>
         ) : (
           ""
         )}
