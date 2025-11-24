@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import UserProvider from "../context/UserContext";
 import { useFonts } from "expo-font";
 import { View, ActivityIndicator } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -12,6 +13,8 @@ export default function RootLayout() {
     QuicksandBold: require("../../assets/fonts/quicksand-bold.ttf"),
     Lato: require("../../assets/fonts/lato-regular.ttf"),
   });
+
+  const insets = useSafeAreaInsets();
 
   if (!fontsLoaded) {
     return (
@@ -31,9 +34,10 @@ export default function RootLayout() {
           },
           headerShadowVisible: false,
           headerTintColor: "#fff",
+          // ⭐ → Dynamisches Padding auf Basis der System Insets
           tabBarStyle: {
-            height: 65, // Genug height und paddingTop/paddingBottom wichtig für normal große Touchflächen der Tabs!!
-            paddingBottom: 1,
+            height: 65 + insets.bottom, // erhöht die Leiste nur wenn nötig
+            paddingBottom: insets.bottom > 0 ? insets.bottom / 2 : 8,
             paddingTop: 3,
             backgroundColor: "#25292e",
             borderTopWidth: 0,

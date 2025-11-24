@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import Svg, { Line, Path, Text, Circle, G } from "react-native-svg";
+import Svg, { Line, Path, Text, Circle, G, Rect } from "react-native-svg";
 import { Animated, Easing } from "react-native";
 import { useState, useRef, useEffect } from "react";
 import { Text as NativeText } from "react-native";
@@ -313,16 +313,27 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
           ""
         )}
         {isInfoVisible ? (
-          <Text
-            x={halfPromille - 20}
-            y={toY(0.5) + 10}
-            fontSize="10"
-            textAnchor="middle"
-            fill="white"
-            fontFamily="Lato"
-          >
-            0,5‰
-          </Text>
+          <>
+            {/* Schattierung für bessere Lesbarkeit */}
+            <Rect
+              x={halfPromille - 34}
+              y={toY(0.5)}
+              width={27}
+              height={12}
+              rx={4} // abgerundete Ecken
+              fill="rgba(0, 0, 0, 0.7)" // halbtransparent für smooth readability
+            />
+            <Text
+              x={halfPromille - 20}
+              y={toY(0.5) + 10}
+              fontSize="10"
+              textAnchor="middle"
+              fill="white"
+              fontFamily="Lato"
+            >
+              0,5‰
+            </Text>
+          </>
         ) : (
           ""
         )}

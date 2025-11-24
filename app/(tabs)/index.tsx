@@ -144,6 +144,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    paddingTop: 20,
   },
   scrollContainer: {
     padding: 16,

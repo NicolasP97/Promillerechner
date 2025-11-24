@@ -3,7 +3,6 @@
     "name": "Promillerechner",
     "slug": "promillerechner",
     "version": "1.0.0",
-
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "promillerechner",
@@ -11,13 +10,14 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.nicolas.promillerechner",
+      "bundleIdentifier": "com.nicodeapps.promillerechner",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "com.nicolas.promillerechner",
+      "package": "com.nicodeapps.promillerechner",
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -43,9 +43,9 @@
             "backgroundColor": "#0f3460"
           }
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
-
     "experiments": {
       "typedRoutes": true
     },
