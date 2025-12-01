@@ -6,7 +6,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import Svg, { Circle, G, Line, Path, Rect, Text } from "react-native-svg";
+import Svg, { Circle, G, Line, Path, Text } from "react-native-svg";
 
 type PromilleChartTypes = {
   promille: number;
@@ -329,18 +329,9 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
         </Text>
 
         <>
-          {/* Schattierung für bessere Lesbarkeit */}
-          <Rect
-            x={halfPromille - 34}
-            y={toY(0.5)}
-            width={27}
-            height={12}
-            rx={4} // abgerundete Ecken
-            fill="rgba(0, 0, 0, 0.7)" // halbtransparent für smooth readability
-          />
           <Text
-            x={halfPromille - 20}
-            y={toY(0.5) + 10}
+            x={halfPromille + 20}
+            y={toY(0.5) + 1}
             fontSize="10"
             textAnchor="middle"
             fill="white"
