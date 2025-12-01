@@ -1,8 +1,12 @@
-import { View, StyleSheet } from "react-native";
-import Svg, { Line, Path, Text, Circle, G, Rect } from "react-native-svg";
-import { Animated, Easing } from "react-native";
-import { useState, useRef, useEffect } from "react";
-import { Text as NativeText } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import {
+  Animated,
+  Easing,
+  Text as NativeText,
+  StyleSheet,
+  View,
+} from "react-native";
+import Svg, { Circle, G, Line, Path, Rect, Text } from "react-native-svg";
 
 type PromilleChartTypes = {
   promille: number;
@@ -65,7 +69,7 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
 
   // Das streckt oder staucht den Graphen je nach Dauer – immer passend zur Promillezeit
   const totalMinutes = hoursTillZeroPromille * 60;
-  const chartWidth = 110; // ViewBox-Breite bleibt
+  const chartWidth = 80; // ViewBox-Breite bleibt
 
   const pxPerMinute = chartWidth / totalMinutes;
 
@@ -188,7 +192,7 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
     <View style={styles.container}>
       <Svg
         height="100%"
-        width="100%"
+        width="115%"
         viewBox="-5 -7 120 120"
         pointerEvents="box-none"
       >
@@ -202,9 +206,9 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
         />
 
         {/* X-Achse */}
-        <Line x1="0" y1="100" x2="115" y2="100" stroke="grey" strokeWidth="1" />
+        <Line x1="0" y1="100" x2="90" y2="100" stroke="grey" strokeWidth="1" />
         <Text
-          x="121" // etwas rechts vom X-Achsen-Ende (bei x=110)
+          x="93" // etwas rechts vom X-Achsen-Ende (bei x=110)
           y="102" // auf Höhe der Achse oder leicht darunter
           fontSize="9"
           fontFamily="QuicksandBold"
@@ -244,7 +248,14 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
         ))}
         {/* Letzter X-Wert = Zeit bei 0 Promille */}
         {!isTooClose && (
-          <Text x={lastX} y={110} fontSize="8" fill="white" textAnchor="middle">
+          <Text
+            x={lastX}
+            y={110}
+            fontSize="8"
+            fill="white"
+            textAnchor="middle"
+            fontFamily="Lato"
+          >
             {timeAtZeroPromille}
           </Text>
         )}
@@ -363,7 +374,10 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 30,
     backgroundColor: "rgba(0, 0, 0, 0.7)",
-    padding: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
+    paddingRight: 10,
     borderRadius: 20,
   },
   text: {
