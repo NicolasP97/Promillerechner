@@ -71,7 +71,11 @@ export default function UserInfo() {
             </View>
 
             <View style={styles.massWrapper}>
-              <Text style={styles.label}>Gewicht (kg)</Text>
+              {massKG > 0 ? (
+                <Text style={styles.label}>Gewicht (kg)</Text>
+              ) : (
+                <Text style={styles.labelMassZero}>Gewicht (kg)</Text>
+              )}
               <TextInput
                 style={styles.input}
                 value={inputMass} // number -> string
@@ -119,6 +123,13 @@ const styles = StyleSheet.create({
   },
   label: {
     color: "white",
+    marginBottom: 10,
+    fontSize: 32,
+    fontFamily: "QuicksandBold",
+    textAlign: "center",
+  },
+  labelMassZero: {
+    color: "cyan",
     marginBottom: 10,
     fontSize: 32,
     fontFamily: "QuicksandBold",
