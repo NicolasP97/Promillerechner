@@ -317,53 +317,43 @@ export default function PromilleChart({ promille, time }: PromilleChartTypes) {
           ""
         )}
 
-        {isInfoVisible ? (
+        <Text
+          x={halfPromille + 25}
+          y={toY(0.5) - 12}
+          fontSize="10"
+          textAnchor="middle"
+          fill="white"
+          fontFamily="Lato"
+        >
+          {`${timeAt05Promile} Uhr*`}
+        </Text>
+
+        <>
+          {/* Schattierung für bessere Lesbarkeit */}
+          <Rect
+            x={halfPromille - 34}
+            y={toY(0.5)}
+            width={27}
+            height={12}
+            rx={4} // abgerundete Ecken
+            fill="rgba(0, 0, 0, 0.7)" // halbtransparent für smooth readability
+          />
           <Text
-            x={halfPromille + 25}
-            y={toY(0.5) - 12}
+            x={halfPromille - 20}
+            y={toY(0.5) + 10}
             fontSize="10"
             textAnchor="middle"
             fill="white"
             fontFamily="Lato"
           >
-            {`${timeAt05Promile} Uhr*`}
+            0,5‰
           </Text>
-        ) : (
-          ""
-        )}
-        {isInfoVisible ? (
-          <>
-            {/* Schattierung für bessere Lesbarkeit */}
-            <Rect
-              x={halfPromille - 34}
-              y={toY(0.5)}
-              width={27}
-              height={12}
-              rx={4} // abgerundete Ecken
-              fill="rgba(0, 0, 0, 0.7)" // halbtransparent für smooth readability
-            />
-            <Text
-              x={halfPromille - 20}
-              y={toY(0.5) + 10}
-              fontSize="10"
-              textAnchor="middle"
-              fill="white"
-              fontFamily="Lato"
-            >
-              0,5‰
-            </Text>
-          </>
-        ) : (
-          ""
-        )}
+        </>
       </Svg>
-      {isInfoVisible ? (
-        <NativeText style={styles.prognoseText}>
-          *Geschätze Uhrzeit für 0,5‰
-        </NativeText>
-      ) : (
-        ""
-      )}
+
+      <NativeText style={styles.prognoseText}>
+        *Geschätze Uhrzeit für 0,5‰
+      </NativeText>
     </View>
   );
 }
