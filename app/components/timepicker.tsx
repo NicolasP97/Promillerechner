@@ -1,14 +1,14 @@
-import { useState } from "react";
-import {
-  View,
-  Platform,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { LinearGradient } from "expo-linear-gradient";
+import { useState } from "react";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 type TimeInputProps = {
   onTimeChange: (time: Date) => void;
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontFamily: "QuicksandMedium",
   },
   gradientButton: {
-    width: 300,
+    width: 250,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 50,

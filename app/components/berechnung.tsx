@@ -1,15 +1,15 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-} from "react-native";
-import { useState, useRef } from "react";
-import { useUser } from "../context/UserContext";
 import { LinearGradient } from "expo-linear-gradient";
-import calculatePromilleExtern from "./calculatePromilleExtern";
+import { useRef, useState } from "react";
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useUser } from "../context/UserContext";
 import PromilleChart from "./alkTrend";
+import calculatePromilleExtern from "./calculatePromilleExtern";
 
 type AlkoholEintrag = {
   volume: string;
@@ -123,13 +123,13 @@ const styles = StyleSheet.create({
     fontFamily: "QuicksandBold",
   },
   buttonText: {
-    fontSize: 22,
+    fontSize: 21,
     color: "white",
     textAlign: "center",
     fontFamily: "QuicksandBold",
   },
   gradientButton: {
-    width: 300,
+    width: 240,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 50,
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   ergebnis: {
-    fontSize: 26,
+    fontSize: 24,
     color: "white",
     fontFamily: "QuicksandBold",
   },

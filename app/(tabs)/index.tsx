@@ -1,21 +1,21 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useState } from "react";
 import {
-  StyleSheet,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StyleSheet,
   TouchableWithoutFeedback,
-  Keyboard,
   View,
 } from "react-native";
-import { useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { LinearGradient } from "expo-linear-gradient";
 
+import AddAlkoholArt from "../components/addAlkohol";
 import AlkoholArt from "../components/alkohol";
 import Berechnung from "../components/berechnung";
-import TimeInput from "../components/timepicker";
-import AddAlkoholArt from "../components/addAlkohol";
 import DisclaimerModal from "../components/disclaimerModal";
+import TimeInput from "../components/timepicker";
 
 export default function Index() {
   const [showDisclaimer, setShowDisclaimer] = useState(false);
@@ -144,7 +144,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 35,
   },
   scrollContainer: {
     padding: 16,

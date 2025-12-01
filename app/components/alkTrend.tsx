@@ -371,6 +371,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "lightgrey",
     marginTop: 10,
+    marginLeft: 10,
     fontFamily: "QuicksandMedium",
   },
 });
