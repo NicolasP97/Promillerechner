@@ -1,11 +1,11 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   ReactNode,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Gender = "male" | "female" | null;
 
@@ -20,7 +20,7 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 // 2. Provider-Komponente
-export const UserProvider = ({ children }: { children: ReactNode }) => {
+const UserProvider = ({ children }: { children: ReactNode }) => {
   const [gender, setGenderState] = useState<Gender>(null);
   const [massKG, setMassKGState] = useState<number>(0); // Standardgewicht
 

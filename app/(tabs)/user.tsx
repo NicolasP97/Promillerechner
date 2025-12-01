@@ -79,6 +79,7 @@ export default function UserInfo() {
                 onChangeText={(text) => {
                   setInputMass(text);
                 }}
+                //erst wenn Keyboard geschlossen wird, wird der Wert aktualisiert
                 onBlur={() => {
                   // Internen Wert setzen
                   const parsed = parseFloat(inputMass);
