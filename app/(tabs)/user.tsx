@@ -12,7 +12,7 @@ import {
 
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useUser } from "../context/UserContext";
 
@@ -24,10 +24,7 @@ export default function UserInfo() {
     setMassKG,
   } = useUser();
 
-  const [inputMass, setInputMass] = useState(massKG.toString());
-  useEffect(() => {
-    setInputMass(massKG.toString());
-  }, [massKG]);
+  const [inputMass, setInputMass] = useState(massKG ? massKG.toString() : "");
 
   return (
     <LinearGradient
@@ -81,9 +78,14 @@ export default function UserInfo() {
                 value={inputMass} // number -> string
                 onChangeText={(text) => {
                   setInputMass(text);
-                  const parsed = parseFloat(text);
-                  if (!isNaN(parsed)) {
-                    setMassKG(parsed); //  safe update
+                }}
+                onBlur={() => {
+                  // Internen Wert setzen
+                  const parsed = parseFloat(inputMass);
+                  if (isNaN(parsed)) {
+                    setMassKG(0); // intern 0
+                  } else {
+                    setMassKG(parsed);
                   }
                 }}
                 keyboardType="numeric"
