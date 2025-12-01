@@ -1,18 +1,18 @@
 import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useState } from "react";
 
 import { useUser } from "../context/UserContext";
 
@@ -50,7 +50,10 @@ export default function UserInfo() {
                 ]}
                 onPress={() => onSelect("male")}
               >
-                <Ionicons name="male" color="rgb(7, 232, 248)" size={25} />
+                <View style={styles.genderContainer}>
+                  <Ionicons name="male" color="rgb(7, 232, 248)" size={25} />
+                  <Text style={styles.genderText}>männlich</Text>
+                </View>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -60,7 +63,10 @@ export default function UserInfo() {
                 ]}
                 onPress={() => onSelect("female")}
               >
-                <Ionicons name="female" color="rgb(248, 7, 240)" size={25} />
+                <View style={styles.genderContainer}>
+                  <Ionicons name="female" color="rgb(248, 7, 240)" size={25} />
+                  <Text style={styles.genderText}>weiblich</Text>
+                </View>
               </TouchableOpacity>
             </View>
 
@@ -99,7 +105,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    paddingTop: 40,
+    paddingTop: 50,
   },
   keyboardWrapper: {
     flex: 1,
@@ -125,7 +131,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "rgb(23, 23, 23)",
-    padding: 20,
+    padding: 17,
     borderRadius: 8,
     borderWidth: 2,
     borderColor: "transparent", // default kein Rand
@@ -135,6 +141,15 @@ const styles = StyleSheet.create({
   activeButton: {
     borderColor: "white", // aktiver Rahmen
     backgroundColor: "rgb(56, 56, 56)",
+  },
+  genderContainer: {
+    alignItems: "center",
+  },
+  genderText: {
+    color: "white",
+    fontFamily: "QuicksandBold",
+    fontSize: 14,
+    marginTop: 5,
   },
   massWrapper: {
     marginTop: 30,
